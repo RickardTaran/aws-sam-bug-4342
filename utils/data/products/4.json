@@ -1,0 +1,10 @@
+{
+    "id": "4",
+    "name": "2x10 8' SPF",
+    "nominal-dimensions": {
+        "thickness": "2 in",
+        "width": "10 in",
+        "length": "8 ft"
+    },
+    "class": "SPF"
+}

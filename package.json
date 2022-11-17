@@ -1,0 +1,17 @@
+{
+    "name": "delete-test-01",
+    "description": "delete-test-01-description",
+    "version": "0.0.1",
+    "private": true,
+    "devDependencies": {
+        "jest": "^26.6.3"
+    },
+    "scripts": {
+        "test": "jest",
+        "start": "sam local start-api --warm-containers EAGER --docker-network utils_sam_bridge",
+        "deploy": "sam deploy"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.211.0"
+    }
+}

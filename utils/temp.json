@@ -1,0 +1,52 @@
+{
+    "Items": [
+        {
+            "name": {
+                "S": "2x12 8' SPF"
+            },
+            "id": {
+                "S": "1"
+            },
+            "nominal-dimensions": {
+                "M": {
+                    "width": {
+                        "S": "12 in"
+                    },
+                    "length": {
+                        "S": "8 ft"
+                    },
+                    "thickness": {
+                        "S": "2 in"
+                    }
+                }
+            },
+            "class": {
+                "S": "SPF"
+            }
+        },
+        {
+            "name": {
+                "S": "2x6 8' SPF"
+            },
+            "id": {
+                "S": "2"
+            },
+            "nominal-dimensions": {
+                "M": {
+                    "width": {
+                        "S": "6 in"
+                    },
+                    "length": {
+                        "S": "8 ft"
+                    },
+                    "thickness": {
+                        "S": "2 in"
+                    }
+                }
+            },
+            "class": {
+                "S": "SPF"
+            }
+        }
+    ]
+}
