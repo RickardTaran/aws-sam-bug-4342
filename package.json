@@ -9,9 +9,7 @@
     "scripts": {
         "test": "jest",
         "start": "sam local start-api --warm-containers EAGER --docker-network utils_sam_bridge",
-        "deploy": "sam deploy"
-    },
-    "dependencies": {
-        "@aws-sdk/client-dynamodb": "^3.211.0"
+        "deploy": "sam deploy",
+        "build": "sam build"
     }
 }
