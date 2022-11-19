@@ -1,130 +1,20 @@
-# This is the SAM template that represents the architecture of your serverless application
-# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
-
-# The AWSTemplateFormatVersion identifies the capabilities of the template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
 AWSTemplateFormatVersion: '2010-09-09'
-Description: >-
-  back-end
-
-# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
-Transform:
-- AWS::Serverless-2016-10-31
+Transform: AWS::Serverless-2016-10-31
 
 Resources:
-
-  # ##############################################################################
-  # Front End
-  myDistribution:
-    Type: AWS::CloudFront::Distribution
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function 
     Properties:
-      DistributionConfig:
-        Origins:
-          - DomainName: !Join ['', [!Ref StaticBucket, '.s3.amazonaws.com']]
-            Id: static-bucket
-            S3OriginConfig:
-              OriginAccessIdentity: 
-                !Join ['', ['origin-access-identity/cloudfront/', !Ref CloudFrontOriginAccessIdentity]]
-          - Id: api-gateway
-            DomainName: !Sub "${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com"
-            CustomOriginConfig:
-              HTTPSPort: '443'
-              OriginProtocolPolicy: https-only
-            OriginPath: /Prod
-        DefaultCacheBehavior:
-          Compress: true
-          ForwardedValues:
-            QueryString: false
-          TargetOriginId: static-bucket
-          ViewerProtocolPolicy: redirect-to-https
-        CacheBehaviors:
-          - TargetOriginId: api-gateway
-            PathPattern: /api/*
-            ViewerProtocolPolicy: redirect-to-https
-            AllowedMethods:
-              - GET
-              - HEAD
-              - OPTIONS
-              - PUT
-              - PATCH
-              - POST
-              - DELETE
-            ForwardedValues:
-              QueryString: true
-        DefaultRootObject: index.html
-        Enabled: true
-        HttpVersion: http2
-        PriceClass: PriceClass_100
-        ViewerCertificate:
-          CloudFrontDefaultCertificate: true
-
-  CloudFrontOriginAccessIdentity:
-    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
-    Properties:
-      CloudFrontOriginAccessIdentityConfig:
-        Comment: 'CloudFront OAI for Static App'
-  StaticBucket:
-    Type: 'AWS::S3::Bucket'
-  BucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref StaticBucket
-      PolicyDocument:
-        Statement:
-          - Action:
-              - s3:GetObject 
-            Effect: Allow
-            Resource: !Join ['', ['arn:aws:s3:::', !Ref StaticBucket, '/*']]
-            Principal:
-              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
-
-  helloFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/hello.helloHandler
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
       Runtime: nodejs16.x
-      Timeout: 10
+      Architectures:
+        - x86_64
       Events:
-        Api:
-          Type: Api
+        HelloWorld:
+          Type: Api #
           Properties:
-            Path: /api/hello
-            Method: GET
-  messageFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/message.messageHandler
-      Runtime: nodejs16.x
-      Timeout: 10
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /api/message
-            Method: POST
-  productsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/products.rootHandler
-      Runtime: nodejs16.x
-      Timeout: 10
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /api/products
-            Method: GET
-
-Outputs:
-  WebEndpoint:
-    Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-  S3BucketSecureURL:
-    Value: !Join 
-      - ''
-      - - 'https://'
-        - !GetAtt 
-          - StaticBucket
-          - DomainName
-    Description: Name of S3 bucket to hold website content
+            Path: /hello
+            Method: get
+    Metadata:
+      BuildMethod: esbuild 
