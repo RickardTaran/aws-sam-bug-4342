@@ -1,5 +1,5 @@
 import { DynamoDBClient, ExecuteStatementCommand } from "@aws-sdk/client-dynamodb";
-const { unmarshall } = require("@aws-sdk/util-dynamodb");
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const DynamoClient = new DynamoDBClient({
     endpoint: 'http://dynamo-local:8000'

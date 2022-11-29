@@ -1,4 +1,4 @@
-import { Statement } from '/opt/nodejs/dynamodb'
+import { Statement } from '/opt/nodejs/dynamodb.mjs'
 
 export async function lambdaHandler(event) {
 
